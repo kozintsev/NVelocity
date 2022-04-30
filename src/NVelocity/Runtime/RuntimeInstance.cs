@@ -1,4 +1,4 @@
-// Copyright 2004-2010 Castle Project - http://www.castleproject.org/
+﻿// Copyright 2004-2010 Castle Project - http://www.castleproject.org/
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@ namespace NVelocity.Runtime
 	using System.Diagnostics;
 	using System.IO;
 	using System.Reflection;
+	using System.Text;
 	using Commons.Collections;
 	using Directive;
 	using Log;
@@ -783,11 +784,60 @@ namespace NVelocity.Runtime
 		/// <param name="message">message to log</param>
 		private void Log(LogLevel level, Object message)
 		{
-// 			String output = message.ToString();
+ 			var output = message.ToString();
 
 			// just log it, as we are guaranteed now to have some
 			// kind of logger - save the if()
-//			logSystem.LogVelocityMessage(level, output);
+
+			//logSystem.LogVelocityMessage(level, output);
+			//TryAddLogByTempFolder(level, output);
+		}
+		/// <summary>
+		/// Лог для отладки и тестирования
+		/// </summary>
+		/// <param name="level"></param>
+		/// <param name="message"></param>
+		private void TryAddLogByTempFolder(LogLevel level, string message)
+		{
+			try
+			{
+				DateTime now = DateTime.Now;
+				var fileName = string.Format("nvelocity-{0}.log", now.ToString("d"));
+				var fileFullPath = Path.Combine(Path.GetTempPath(), fileName);
+				using (FileStream fs = new FileStream(fileFullPath, FileMode.Append))
+				{
+					using (var w = new StreamWriter(fs, Encoding.Default))
+					{
+						var str = now.ToString("G");
+
+						switch (level)
+						{
+							case LogLevel.Info:
+								str += " [INFO] ";
+								break;
+							case LogLevel.Warn:
+								str += " [WARN] ";
+								break;
+							case LogLevel.Error:
+								str += " [ERROR] ";
+								break;
+							case LogLevel.Debug:
+								str += " [DEBUG] ";
+								break;
+							default:
+								str += " [DEBUG] ";
+								break;
+						}
+
+						str += message;
+						w.WriteLine(str);
+					}
+				}
+			}
+			catch
+			{
+				//ignore
+			}
 		}
 
 		/// <summary>
