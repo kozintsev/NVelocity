@@ -3,7 +3,7 @@
 	<PropertyGroup>
 		<RepositoryType>git</RepositoryType>
 		<RepositoryUrl>https://github.com/castleproject/NVelocity</RepositoryUrl>
-		<BuildVersion>0.0.0</BuildVersion>
+		<BuildVersion>1.2.1</BuildVersion>
 		<BuildVersion Condition="'$(APPVEYOR_BUILD_VERSION)'!=''">$(APPVEYOR_BUILD_VERSION)</BuildVersion>
 		<BuildVersionMajor>$(BuildVersion.Split('.')[0])</BuildVersionMajor>
 	</PropertyGroup>
@@ -14,7 +14,7 @@
 		<PackageVersion>$(BuildVersion)</PackageVersion>
 		<FileVersion>$(BuildVersion)</FileVersion>
 		<VersionPrefix>$(BuildVersion)</VersionPrefix>
-		<AssemblyVersion>$(BuildVersionMajor).0.0</AssemblyVersion>
+		<AssemblyVersion>$(BuildVersionMajor).2.1</AssemblyVersion>
 		<PackageLicenseUrl>http://www.apache.org/licenses/LICENSE-2.0.html</PackageLicenseUrl>
 		<PackageProjectUrl>http://www.castleproject.org/</PackageProjectUrl>
 		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>

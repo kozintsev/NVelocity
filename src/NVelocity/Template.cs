@@ -72,10 +72,11 @@ namespace NVelocity
 				// now parse the template
 				try
 				{
-					StreamReader br = new StreamReader(s, System.Text.Encoding.GetEncoding(encoding));
-
-					data = runtimeServices.Parse(br, name);
-					InitDocument();
+					using (StreamReader br = new StreamReader(s, System.Text.Encoding.GetEncoding(encoding)))
+					{
+						data = runtimeServices.Parse(br, name);
+						InitDocument();
+					}
 					return true;
 				}
 				catch(IOException ioException)
@@ -99,6 +100,7 @@ namespace NVelocity
 				{
 					// Make sure to close the inputstream when we are done.
 					s.Close();
+					s.Dispose();
 				}
 			}
 			else
