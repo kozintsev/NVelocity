@@ -53,23 +53,25 @@ namespace NVelocity.Runtime.Resource
 
 			try
 			{
-				StringWriter sw = new StringWriter();
-
-				reader = new StreamReader(
-					new StreamReader(
-						resourceLoader.GetResourceStream(name),
-						System.Text.Encoding.GetEncoding(encoding)).BaseStream);
-
-				char[] buf = new char[1024];
-				int len = 0;
-
-				// -1 in java, 0 in .Net
-				while((len = reader.Read(buf, 0, 1024)) > 0)
+				using (StringWriter sw = new StringWriter())
 				{
-					sw.Write(buf, 0, len);
-				}
+					using (reader = new StreamReader(
+						new StreamReader(
+							resourceLoader.GetResourceStream(name),
+							System.Text.Encoding.GetEncoding(encoding)).BaseStream))
+					{
+						char[] buf = new char[1024];
+						int len = 0;
 
-				data = sw.ToString();
+						// -1 in java, 0 in .Net
+						while ((len = reader.Read(buf, 0, 1024)) > 0)
+						{
+							sw.Write(buf, 0, len);
+						}
+
+						data = sw.ToString();
+					}
+				}				
 
 				return true;
 			}
@@ -91,6 +93,7 @@ namespace NVelocity.Runtime.Resource
 					try
 					{
 						reader.Close();
+						reader.Dispose();
 					}
 					catch(Exception)
 					{

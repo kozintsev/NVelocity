@@ -559,6 +559,7 @@ namespace NVelocity.Runtime.Resource
 						try
 						{
 							input.Close();
+							input.Dispose();
 						}
 						catch(IOException)
 						{

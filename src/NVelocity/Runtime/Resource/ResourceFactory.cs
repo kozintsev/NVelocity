@@ -87,9 +87,11 @@ namespace NVelocity.Runtime.Resource
 				case ResourceType.Template:
 					resource = new Template();
 					break;
-
 				case ResourceType.Content:
 					resource = new ContentResource();
+					break;
+				default:
+					resource = new Template();
 					break;
 			}
 
